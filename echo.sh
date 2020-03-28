@@ -47,8 +47,8 @@ fi
 
 echo() {
   if [ "${1:-}" = "-n" ] && shift; then
-    [ $# -eq 0 ] || puts "$@"
+    puts "${@:-}"
   else
-    [ $# -eq 0 ] || putsn "$@"
+    putsn "${@:-}"
   fi
 }
