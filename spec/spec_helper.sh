@@ -2,7 +2,7 @@
 
 set -eu
 
-LF="
+export LF="
 "
 
 # shellspec_spec_helper_configure() {
