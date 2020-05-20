@@ -1,0 +1,10 @@
+FROM lpenz/debian-lenny-i386-minbase
+ENV DEBIAN_FRONTEND=noninteractive DEBCONF_NOWARNINGS=yes
+RUN apt-get update
+RUN apt-get install -y --force-yes bash busybox dash ksh mksh pdksh posh zsh
+RUN ln -s /bin/busybox /bin/ash
+
+COPY --from=shellspec/shellspec-scratch /opt/shellspec /opt/shellspec
+ENV PATH /opt/shellspec/:$PATH
+CMD [ "./test.sh" ]
+COPY ./ ./

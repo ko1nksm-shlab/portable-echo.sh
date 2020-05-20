@@ -1,0 +1,8 @@
+FROM lpenz/debian-potato-i386
+RUN apt-get update
+RUN apt-get install -y bash pdksh zsh
+
+COPY --from=shellspec/shellspec-scratch /opt/shellspec /opt/shellspec
+ENV PATH /opt/shellspec/:$PATH
+CMD [ "./test.sh" ]
+COPY ./ ./

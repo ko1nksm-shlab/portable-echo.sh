@@ -1,0 +1,9 @@
+FROM lpenz/debian-sarge-i386
+ENV DEBIAN_FRONTEND=noninteractive DEBCONF_NOWARNINGS=yes
+RUN apt-get update
+RUN apt-get install -y bash dash pdksh posh zsh
+
+COPY --from=shellspec/shellspec-scratch /opt/shellspec /opt/shellspec
+ENV PATH /opt/shellspec/:$PATH
+CMD [ "./test.sh" ]
+COPY ./ ./
