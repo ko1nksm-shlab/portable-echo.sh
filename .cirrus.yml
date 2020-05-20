@@ -1,0 +1,84 @@
+linux_task:
+  container:
+    image: debian
+  install_script:
+    - apt-get update
+    - apt-get install -y curl git bash busybox dash ksh mksh posh yash zsh
+    - ln -s /bin/busybox /usr/local/bin/ash
+    - curl -fsSL https://git.io/shellspec | sh -s master -y --prefix /usr/local
+  script:
+    - echo "$PATH"
+    - ./test.sh
+
+freebsd_task:
+  freebsd_instance:
+    image_family: freebsd-12-1
+  install_script:
+    - pkg install -y curl git dash bash ksh93 mksh oksh yash zsh
+    - curl -fsSL https://git.io/shellspec | sh -s master -y --prefix /usr/local
+  script:
+    - echo "$PATH"
+    - ./test.sh
+
+osx_task:
+  osx_instance:
+    image: catalina-base
+  install_script:
+    - curl -fsSL https://git.io/shellspec | sh -s master -y --prefix /usr/local
+  script:
+    - echo "$PATH"
+    - ./test.sh
+
+osxbrew_task:
+  osx_instance:
+    image: catalina-base
+  install_script:
+    - brew install git dash bash ksh mksh yash zsh
+    - curl -fsSL https://git.io/shellspec | sh -s master -y --prefix /usr/local
+  script:
+    - echo "$PATH"
+    - ./test.sh
+
+gitbash_task:
+  windows_container:
+    image: cirrusci/windowsservercore:2019
+    os_version: 2019
+  env:
+    - PATH: $ProgramFiles\Git\bin;$PATH
+    - MSYS: winsymlinks:lnk
+  install_script:
+    - curl -fsSL https://git.io/shellspec | sh -s master -y --prefix /usr/local
+  script:
+    - sh -c 'echo "$PATH"'
+    - sh -c './test.sh sh'
+
+# http://disq.us/p/29cj008
+#msys_task:
+#  windows_container:
+#    image: cirrusci/windowsservercore:2019
+#    os_version: 2019
+#  env:
+#    - PATH: C:\tools\msys64\usr\bin;$PATH
+#    - MSYS: winsymlinks:lnk
+#  install_script:
+#    - choco install -y msys2
+#    - pacman -S --noconfirm dash bash mksh zsh
+#    - curl -fsSL https://git.io/shellspec | sh -s master -y --prefix /usr/local
+#  script:
+#    - sh -c 'echo "$PATH"'
+#    - sh -c './test.sh sh'
+
+cygwin_task:
+  windows_container:
+    image: cirrusci/windowsservercore:2019
+    os_version: 2019
+  env:
+    - PATH: C:\tools\cygwin\bin;$PATH
+    - CYGWIN: winsymlinks:lnk
+  install_script:
+    - choco install -y cygwin cyg-get
+    - cyg-get dash bash mksh posh zsh
+    - curl -fsSL https://git.io/shellspec | sh -s master -y --prefix /usr/local
+  script:
+    - sh -c 'echo "$PATH"'
+    - sh -c './test.sh sh'

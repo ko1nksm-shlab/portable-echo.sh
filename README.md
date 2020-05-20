@@ -1,10 +1,21 @@
-# Portable echo shell function
+# Portable echo - fixes broken echo for POSIX compliant shell scripts
 
-Portable `echo` shell function for POSIX compliant shells. It works exactly the same in all shells.
+## Why?
+
+The `echo` command is not portable. It interprets escape sequences in some shells,
+some shells require `-e` and some shells `-e` is printed as is. I mean, the `echo` is broken.
+
+Portable echo works the same behavior for all shells.
+
+### Portable echo vs printf
+
+Portable echo also use `printf` internally, but not all shells.
+Some shells not implement `printf` as built-in.
+Use the external `printf` command in those shells. It is very slow.
 
 ## Functions
 
-* `puts` - Output as is without interpreting escape sequences and options.
+* `puts` - Output as is. Does not interpret escape sequences and options.
 * `putsn` - `puts` with newline.
 * `echo` - Overwrite built-in `echo`. Only supported `-n` option.
 

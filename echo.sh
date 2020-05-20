@@ -2,9 +2,6 @@
 
 set -eu
 
-# `echo` not has portability, and external 'printf' command is slow.
-# Use puts or putsn replacement of 'echo'.
-# Those commands output arguments as it. (not interpret -n and escape sequence)
 puts() {
   printf '' && return 0
   if print -nr -- ''; then
@@ -73,6 +70,7 @@ case $? in
     ;;
 esac
 
+# Portable echo that supports only -n
 echo() {
   if [ "${1:-}" = "-n" ] && shift; then
     puts "${@:-}"
